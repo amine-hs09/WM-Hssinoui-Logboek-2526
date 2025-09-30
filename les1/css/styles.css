@@ -1,0 +1,27 @@
+body {
+    font-family: sans-serif;
+}
+.rij{
+    clear:both;
+    float:left;
+    margin-left:0.25em;
+    margin-right:0.25em;
+}
+.kolom1, .kolom3{
+    display:inline-block;
+    width: 3em;
+    background-color:lightgrey;
+    text-align: center;
+}
+.kolom2{
+    display:inline-block;
+    width: 15em;
+    background-color:darkgrey;
+    padding-left:0.25em;
+}
+.kop {
+    border-style: none none solid none;
+    border-color: white;
+    border-width: 1px;
+    text-align: center;
+}
