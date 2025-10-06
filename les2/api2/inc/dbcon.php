@@ -10,10 +10,10 @@ if (!defined('INDEX')) {
 </body></html>');
 }
 // Create connection strings
-$servername = "ID477568_mohamedaminehs.db.webhosting.be";
-$username = "ID477568_mohamedaminehs"; // username (zie Hosting)
-$password = "Soumsoum147"; // paswoord DATABANK (zie hosting)
-$dbname = "ID477568_mohamedaminehs"; // naam databank (zie hosting ; zelf gekozen)
+$servername = "IDxxxxxx_aaaaaaaaa.db.webhosting.be";
+$username = "IDxxxxxx_aaaaaaaaa"; // username (zie Hosting)
+$password = "yyyyyyyyyyyyyyy"; // paswoord DATABANK (zie hosting)
+$dbname = "IDxxxxxx_aaaaaaaaa"; // naam databank (zie hosting ; zelf gekozen)
 
 $conn = mysqli_connect($servername, $username, $password, $dbname) or die(mysqli_connect_error());
 mysqli_set_charset($conn, 'utf8mb4'); // mysqli extension

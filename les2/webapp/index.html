@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="utf-8">
     <title>test</title>
@@ -19,10 +20,22 @@
     <span class="knop kOdd" id="btnTestLogin">Test login</span>
     <span class="knop kOdd" id="btnGetTijd">Test servertijd</span>
     <span class="knop kOdd" id="btnGetProducten">Test producten</span>
+    <hr>
+    <h2>Product toevoegen</h2>
+    <label>Naam:</label><input id="pNaam" type="text">
+    <label>Prijs:</label><input id="pPrijs" type="number" step="0.01">
+    <label>Categorie (ct_id):</label><input id="pCt" type="number">
+    <span class="knop kOdd" id="btnAddProduct">Toevoegen</span>
+
+    <h2>Product verwijderen</h2>
+    <label>Product ID:</label><input id="delId" type="number">
+    <span class="knop kOdd" id="btnDelProduct">Verwijderen</span>
+
 
 
     <!-- eigen scripts hier -->
     <script src="js/script.js" defer async></script>
 
 </body>
+
 </html>

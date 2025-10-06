@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <title>Concert Tickets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .grid { display:grid; gap:1rem; grid-template-columns: 1fr 1fr; }
+    .card { border:1px solid #ddd; border-radius:12px; padding:1rem; }
+  </style>
+</head>
+<body>
+  <h1>🎟️ Concert Tickets</h1>
+  <div class="grid">
+    <div class="card">
+      <h2>Concerts</h2>
+      <div id="concert-list"></div>
+    </div>
+    <div class="card">
+      <h2>Visitors</h2>
+      <div id="visitor-list"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
