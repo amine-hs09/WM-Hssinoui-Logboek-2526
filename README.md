@@ -28,3 +28,43 @@ Het logboek dient om:
 
 hssinoui mohamed amine 
 
+## Week 1 – Startproject & omgeving
+📅 **Datum:** 29 september 2025  
+⏱️ **Tijd:** ± 2 uur  
+🧠 **Wat gedaan:**
+- XAMPP geïnstalleerd en MySQL + Apache geconfigureerd.  
+- Eerste lokale testpagina (`helloOdisee.php`) gemaakt en getest in browser.  
+- Begonnen met `les1`  
+
+## Week 2 – FTP en hosting (Combell)
+📅 **Datum:** 30 september – 1 oktober 2025  
+⏱️ **Tijd:** ± 5 uur  
+🧠 **Wat gedaan:**
+- FileZilla geïnstalleerd en verbinding gemaakt met **Combell FTP**.  
+- Nieuwe site aangemaakt: `ftp.mohamedaminehssinoui-odiseebe.webhosting.be`.  
+- Correcte mapstructuur opgezet: `/www/les1/css`, `/www/les1/inc`, `/www/les1/php`.  
+- Testbestanden (`helloOdisee.php`, `helloData.php`, `fibi.php`) online gezet.  
+- Succesvol getest via de URL :  
+
+
+## Week 3 – Databaseverbinding (Combell MySQL)
+📅 **Datum:** 2 oktober 2025  
+⏱️ **Tijd:** ± 3 uur  
+🧠 **Wat gedaan:**
+- Database php admin   
+- Verbinding getest met PHP-bestand `/inc/db.php`.  
+- Variabelen `$servername`, `$username`, `$password`, `$dbname` correct ingevuld.  
+- Databaseconnectie geslaagd 
+
+## Week 4 – Oefening 2 (producten & categorieën)
+📅 **Datum:** 3 – 4 oktober 2025  
+⏱️ **Tijd:** ± 6 uur  
+🧠 **Wat gedaan:**
+- Tabellen aangemaakt in phpMyAdmin:
+  - **categorieen** (ct_id, ct_naam)  
+  - **producten** (pr_id, pr_naam, pr_prijs, pr_ct_id)
+- Testdata toegevoegd.  
+- PHP-pagina gemaakt om producten + categorieën te tonen met **JOIN** (`producten.php`).  
+- Formulier gemaakt om nieuwe producten toe te voegen (**INSERT**) → `product_add.php`.  
+- Formulier voor aanpassingen (**UPDATE**) → `product_edit.php`.  
+https://mohamedaminehssinoui-odisee.be/les1/php/producten.php  
