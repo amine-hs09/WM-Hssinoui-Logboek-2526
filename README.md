@@ -56,7 +56,7 @@ hssinoui mohamed amine
 - Variabelen `$servername`, `$username`, `$password`, `$dbname` correct ingevuld.  
 - Databaseconnectie geslaagd 
 
-## Week 4 – Oefening 2 (producten & categorieën)
+## les 4 – Oefening 2 (producten & categorieën)
 📅 **Datum:** 3 – 4 oktober 2025  
 ⏱️ **Tijd:** ± 6 uur  
 🧠 **Wat gedaan:**
@@ -68,3 +68,29 @@ hssinoui mohamed amine
 - Formulier gemaakt om nieuwe producten toe te voegen (**INSERT**) → `product_add.php`.  
 - Formulier voor aanpassingen (**UPDATE**) → `product_edit.php`.  
 https://mohamedaminehssinoui-odisee.be/les1/php/producten.php  
+
+
+## 6 oktober 2025 
+
+⏱️ **Tijd:** ± 4 uur  
+🧠 **Wat gedaan:**
+begonnen met mijn porject 
+maken van db en het aanmaken van van mijn strucuur voor werken 
+Online webapp
+https://mohamedaminehssinoui-odisee.be/oef1/webapp/
+/www/oef1/
+   ├─ api/
+   │   ├─ base.php
+   │   ├─ dbcon.php
+   │   ├─ .htaccess
+   │   ├─ concerts.php            ← RESTful API (fichier unique)
+   │   └─ inc/
+   │        └─ concerts/          ← versie volgens de docent
+   │            ├─ get.php
+   │            ├─ add.php
+   │            ├─ update.php
+   │            └─ delete.php
+   └─ webapp/
+       ├─ index.html
+       ├─ js/script.js
+       └─ css/stijl.css

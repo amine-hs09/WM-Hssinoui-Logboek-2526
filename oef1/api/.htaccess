@@ -1,0 +1,35 @@
+# Empêche l’index de répertoire et désactive MultiViews (évite les 404 bizarres)
+Options -Indexes -MultiViews
+
+# Charset par défaut
+AddDefaultCharset utf-8
+
+# Fichier par défaut si on ouvre /oef1/api/
+DirectoryIndex index.php
+
+# --- REWRITES ---
+RewriteEngine On
+RewriteBase /oef1/api/
+
+# Laisser passer les fichiers/dossiers physiques
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Routes REST → *nom*.php
+RewriteRule ^(concerts|visitors|tickets|login)/?$ $1.php [L,NC]
+
+# --- SÉCURITÉ ---
+# Bloquer l'accès direct aux secrets
+<FilesMatch "^(dbcon\.php|\.env)$">
+  Require all denied
+</FilesMatch>
+
+# --- CORS (pour fetch côté front, sans preflight forcé) ---
+<IfModule mod_headers.c>
+  Header always set Access-Control-Allow-Origin "*"
+  Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+  Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
+
