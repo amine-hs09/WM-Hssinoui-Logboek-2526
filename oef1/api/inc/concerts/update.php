@@ -1,15 +1,15 @@
 <?php
 // --- "update" een concert
 
-check_required_fields(["id","artist","date","time","venue","price"]);
+check_required_fields(["id", "artist", "date", "time", "venue", "price"]);
 
 // Sécuriser les entrées
-$id     = (int)$postvars['id'];
+$id = (int) $postvars['id'];
 $artist = htmlentities($postvars['artist']);
-$date   = htmlentities($postvars['date']);
-$time   = htmlentities($postvars['time']);
-$venue  = htmlentities($postvars['venue']);
-$price  = (float)$postvars['price'];
+$date = htmlentities($postvars['date']);
+$time = htmlentities($postvars['time']);
+$venue = htmlentities($postvars['venue']);
+$price = (float) $postvars['price'];
 
 // Préparer la requête
 if (!$stmt = $conn->prepare("UPDATE concerts SET artist=?, date=?, time=?, venue=?, price=? WHERE id=?")) {
