@@ -1,11 +1,10 @@
 <?php
-// --- "get" tickets (alle of specifieke)   op postman vind je ticket met ticket id niet met id van visitror of concert
-// als je /tickets/?id=1 gebruikt krijg je detail van ticket met id 1
+// vind alle ticket terug 
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($id > 0) {
-    // Detail van één ticket
+    // hier vind ik de detail terug van de ticket 
     $sql = "SELECT t.id, v.first_name, v.last_name, c.artist, c.venue, t.qty, t.bought_at
             FROM tickets t
             JOIN visitors v ON v.id = t.visitor_id
@@ -26,9 +25,9 @@ if ($id > 0) {
     $stmt->close();
     die(json_encode(["data" => $ticket, "status" => 200]));
 } else {
-    // Lijst van alle tickets
+    // hier is de request voor alle tickets te vinden 
     $sql = "SELECT t.id, v.first_name, v.last_name, c.artist, c.date, c.venue, t.qty
-            FROM tickets t
+        FROM tickets t
             JOIN visitors v ON v.id = t.visitor_id
             JOIN concerts c ON c.id = t.concert_id
             ORDER BY t.bought_at DESC";
@@ -43,6 +42,6 @@ if ($id > 0) {
     }
     $res->free();
     $conn->close();
-
+// sluit verbinding
     die(json_encode(["data" => $tickets, "status" => 200]));
 }

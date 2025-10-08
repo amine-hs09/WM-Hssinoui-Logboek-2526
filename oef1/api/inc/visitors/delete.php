@@ -1,4 +1,5 @@
 <?php
+// bezoeker deleten 
 check_required_fields(["id"]);
 
 $id = $postvars['id'];
