@@ -228,3 +228,296 @@ Voorbeeld-response :
 "status": 200,
 "deleted": 1
 }
+
+Parfait Amine 👌 — voici ton **README complet (Deel 3 + Deel 4)**
+en **Nederlands**, prêt à coller directement dans ton fichier `README.md`.
+Il respecte exactement la structure de tes voorgaande delen (Concerts + Tickets).
+
+---
+
+## 📘 Deel 3 – Visitors API
+08/10/25
+
+### 🎯 Doel
+
+Deze API maakt het mogelijk om bezoekers (**visitors**) te beheren.
+Je kan bezoekers toevoegen, opvragen, wijzigen en verwijderen via RESTful endpoints.
+
+De tabel **visitors** bevat volgende velden:
+
+- `id` (int, auto_increment)
+- `first_name` (varchar 80)
+- `last_name` (varchar 80)
+- `birth_date` (date)
+- `email` (varchar 120, uniek)
+- `created_at` (timestamp)
+
+---
+
+### ⚙️ Endpoints
+
+| Methode  | Endpoint                    | Beschrijving                                 |
+| -------- | --------------------------- | -------------------------------------------- |
+| `GET`    | `/api/visitors.php`         | geeft alle bezoekers terug                   |
+| `GET`    | `/api/visitors.php?id={id}` | geeft één specifieke bezoeker + zijn tickets |
+| `POST`   | `/api/visitors.php`         | voegt een nieuwe bezoeker toe                |
+| `PUT`    | `/api/visitors.php`         | wijzigt een bestaande bezoeker               |
+| `DELETE` | `/api/visitors.php`         | verwijdert een bezoeker op basis van id      |
+
+---
+
+### 🧪 Test 1 – Nieuwe visitor toevoegen
+
+**POST →**
+`https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php`
+
+**Body (JSON):**
+
+```json
+{
+  "first_name": "Nadia",
+  "last_name": "Lefevre",
+  "birth_date": "1996-03-22",
+  "email": "nadia.lefevre@example.com"
+}
+```
+
+**Response:**
+
+```json
+{
+  "data": "ok",
+  "message": "Record added successfully",
+  "status": 200,
+  "id": 9
+}
+```
+
+---
+
+### 🧪 Test 2 – Visitor aanpassen
+
+**PUT →**
+`https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php`
+
+**Body (JSON):**
+
+```json
+{
+  "id": 9,
+  "first_name": "Nadia",
+  "last_name": "Lefevre",
+  "birth_date": "1996-03-22",
+  "email": "nadia.lefevre@update.com"
+}
+```
+
+**Response:**
+
+```json
+{
+  "data": "ok",
+  "message": "Record updated",
+  "status": 200,
+  "updated": 1
+}
+```
+
+---
+
+### 🧪 Test 3 – Visitor verwijderen
+
+**DELETE →**
+`https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php`
+
+**Body (JSON):**
+
+```json
+{ "id": 9 }
+```
+
+**Response:**
+
+```json
+{
+  "data": "ok",
+  "message": "Record deleted",
+  "status": 200,
+  "deleted": 1
+}
+```
+
+---
+
+### 🧩 Samenvatting
+
+| Test     | Actie                       | Verwachte resultaat | Status |
+| -------- | --------------------------- | ------------------- | ------ |
+| POST     | Nieuwe visitor toegevoegd   | ✅                  |        |
+| PUT      | Visitor aangepast           | ✅                  |        |
+| DELETE   | Visitor verwijderd          | ✅                  |        |
+| GET (id) | Visitor + tickets opgehaald | ✅                  |        |
+
+---
+
+## 📘 Deel 4 – Relatie tussen Visitors en Concerts via Tickets API
+
+datum 08/10/25
+### 🎯 Doel
+
+In deze stap werd getest dat één bezoeker (**visitor**) meerdere concerten kan bijwonen,
+en dat één concert meerdere bezoekers kan hebben.
+
+Dit bevestigt de **many-to-many-relatie** tussen _visitors_ en _concerts_,
+gerealiseerd door de tabel **tickets**.
+
+---
+
+### 🧩 Database-structuur
+
+| Tabel      | Omschrijving                                                                        |
+| ---------- | ----------------------------------------------------------------------------------- |
+| `visitors` | gegevens van de bezoekers (voornaam, naam, geboortedatum, e-mail)                   |
+| `concerts` | gegevens van de concerten (artiest, datum, uur, locatie, prijs)                     |
+| `tickets`  | koppeltabel tussen visitors ↔ concerts met velden `visitor_id`, `concert_id`, `qty` |
+
+✅ Een visitor kan meerdere tickets kopen voor verschillende concerten.
+✅ Een concert kan door meerdere visitors gekocht worden.
+
+---
+
+### ⚙️ Endpoints
+
+| Methode | Endpoint                    | Beschrijving                                                      |
+| ------- | --------------------------- | ----------------------------------------------------------------- |
+| `POST`  | `/api/tickets.php`          | maakt een nieuw ticket aan (= bezoeker koopt concert)             |
+| `GET`   | `/api/visitors.php?id={id}` | toont de bezoeker en alle concerten waarvoor tickets zijn gekocht |
+| `GET`   | `/api/concerts.php?id={id}` | toont een concert met alle bezoekers die een ticket hebben        |
+
+---
+
+### 🧪 Test 1 – Bezoeker koopt ticket voor nieuw concert
+
+**POST →**
+`https://www.mohamedaminehssinoui-odisee.be/oef1/api/tickets.php`
+
+```json
+{
+  "visitor_id": 2,
+  "concert_id": 5,
+  "qty": 2
+}
+```
+
+**Response:**
+
+```json
+{
+  "data": "ok",
+  "message": "Record added successfully",
+  "status": 200,
+  "id": 10
+}
+```
+
+---
+
+### 🧪 Test 2 – Dezelfde visitor koopt ander concert
+
+```json
+{
+  "visitor_id": 2,
+  "concert_id": 9,
+  "qty": 1
+}
+```
+
+**Response:**
+
+```json
+{
+  "data": "ok",
+  "message": "Record added successfully",
+  "status": 200,
+  "id": 11
+}
+```
+
+➡ Visitor 2 heeft nu tickets voor twee verschillende concerten.
+
+---
+
+### 🧪 Test 3 – Andere visitor voor hetzelfde concert
+
+```json
+{
+  "visitor_id": 3,
+  "concert_id": 5,
+  "qty": 3
+}
+```
+
+**Response:**
+
+```json
+{
+  "data": "ok",
+  "message": "Record added successfully",
+  "status": 200,
+  "id": 12
+}
+```
+
+➡ Concert 5 heeft nu meerdere bezoekers.
+
+---
+
+### 🧪 Controle – GET Visitor met al zijn concerten
+
+**GET →**
+`https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php?id=2`
+
+**Response:**
+
+```json
+{
+  "data": {
+    "visitor": {
+      "id": 2,
+      "first_name": "Ilias",
+      "last_name": "El Gatri",
+      "email": "ilias.elgatri@example.com"
+    },
+    "tickets": [
+      {
+        "artist": "Imagine Dragons",
+        "venue": "Sportpaleis, Antwerp",
+        "date": "2026-04-17",
+        "qty": 2
+      },
+      {
+        "artist": "The 1975",
+        "venue": "Lotto Arena, Antwerp",
+        "date": "2026-01-19",
+        "qty": 1
+      }
+    ]
+  },
+  "status": 200
+}
+```
+
+✅ Toont dat één visitor tickets heeft voor meerdere concerten.
+
+---
+
+### 🧩 Samenvatting
+
+| Test | Actie                             | Verwachte resultaat              | Status |
+| ---- | --------------------------------- | -------------------------------- | ------ |
+| 1    | Visitor 2 koopt concert 5         | Ticket toegevoegd                | ✅     |
+| 2    | Visitor 2 koopt concert 9         | Tweede ticket toegevoegd         | ✅     |
+| 3    | Visitor 3 koopt concert 5         | Concert heeft meerdere bezoekers | ✅     |
+| 4    | GET visitor → toon alle concerten | Werkt correct (many-to-many)     | ✅     |
+
+
