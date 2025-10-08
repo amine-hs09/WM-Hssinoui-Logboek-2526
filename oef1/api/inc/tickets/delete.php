@@ -1,5 +1,5 @@
 <?php
-// --- "delete" een ticket
+// "delete" een ticket
 check_required_fields(["id"]);
 
 if (!$stmt = $conn->prepare("DELETE FROM tickets WHERE id=?")) {

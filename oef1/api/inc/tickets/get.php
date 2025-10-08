@@ -1,5 +1,6 @@
 <?php
-// --- "get" tickets (alle of specifieke)
+// --- "get" tickets (alle of specifieke)   op postman vind je ticket met ticket id niet met id van visitror of concert
+// als je /tickets/?id=1 gebruikt krijg je detail van ticket met id 1
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
