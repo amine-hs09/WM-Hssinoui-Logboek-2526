@@ -1,18 +1,52 @@
 <?php
-require_once __DIR__ . "/../../base.php";
-require_once __DIR__ . "/../../dbcon.php";
+// --- "update" een concert
 
+check_required_fields(["id","artist","date","time","venue","price"]);
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if($id<=0) fail("Missing id",400);
+// Sécuriser les entrées
+$id     = (int)$postvars['id'];
+$artist = htmlentities($postvars['artist']);
+$date   = htmlentities($postvars['date']);
+$time   = htmlentities($postvars['time']);
+$venue  = htmlentities($postvars['venue']);
+$price  = (float)$postvars['price'];
 
-$in = get_json_body();
-require_fields($in, ["artist","date","time","venue","price"]);
+// Préparer la requête
+if (!$stmt = $conn->prepare("UPDATE concerts SET artist=?, date=?, time=?, venue=?, price=? WHERE id=?")) {
+    die(json_encode([
+        "error" => "Prepare failed",
+        "errNo" => $conn->errno,
+        "mysqlError" => $conn->error,
+        "status" => "fail"
+    ]));
+}
 
-$stmt = $conn->prepare("UPDATE concerts SET artist=?, date=?, time=?, venue=?, price=? WHERE id=?");
-if(!$stmt) fail("Prepare failed: ".$conn->error,500);
-$stmt->bind_param("ssssdi",$in["artist"],$in["date"],$in["time"],$in["venue"],$in["price"],$id);
-if(!$stmt->execute()) fail("Update failed: ".$stmt->error,500);
+// Bind
+if (!$stmt->bind_param("ssssdi", $artist, $date, $time, $venue, $price, $id)) {
+    die(json_encode([
+        "error" => "Bind failed",
+        "errNo" => $conn->errno,
+        "mysqlError" => $conn->error,
+        "status" => "fail"
+    ]));
+}
 
-$stmt->close(); $conn->close();
-ok(["updated"=>true]);
+if (!$stmt->execute()) {
+    die(json_encode([
+        "error" => "Execute failed",
+        "errNo" => $stmt->errno,
+        "mysqlError" => $stmt->error,
+        "status" => "fail"
+    ]));
+}
+
+$rows = $stmt->affected_rows;
+$stmt->close();
+$conn->close();
+
+die(json_encode([
+    "data" => "ok",
+    "message" => "Record updated",
+    "status" => 200,
+    "updated" => $rows
+]));

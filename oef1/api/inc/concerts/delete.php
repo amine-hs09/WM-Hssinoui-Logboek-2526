@@ -1,13 +1,17 @@
 <?php
-require_once __DIR__ . "/../../base.php";
-require_once __DIR__ . "/../../dbcon.php";
+// --- "delete" een concert
+check_required_fields(["id"]);
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if($id<=0) fail("Missing id",400);
+if (!$stmt = $conn->prepare("DELETE FROM concerts WHERE id=?")) {
+    die('{"error":"Prepared Statement failed on prepare","errNo":'.json_encode($conn->errno).',"mysqlError":'.json_encode($conn->error).',"status":"fail"}');
+}
 
-$conn->query("DELETE FROM tickets WHERE concert_id=".$id);
-if(!$conn->query("DELETE FROM concerts WHERE id=".$id))
-  fail("Delete failed: ".$conn->error,500);
+if (!$stmt->bind_param("i", $postvars['id'])) {
+    die('{"error":"Prepared Statement bind failed on bind","errNo":'.json_encode($conn->errno).',"mysqlError":'.json_encode($conn->error).',"status":"fail"}');
+}
 
-$conn->close();
-ok(["deleted"=>true]);
+$stmt->execute();
+$rows = $conn->affected_rows;
+$stmt->close();
+
+die('{"data":"ok","message":"Record deleted","status":200,"deleted":'.$rows.'}');
