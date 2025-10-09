@@ -1,3 +1,4 @@
+// tickets.js gelijkt op visitors.js en concerts.js
 const apiTickets =
   "https://www.mohamedaminehssinoui-odisee.be/oef1/api/tickets.php";
 const apiConcerts =
@@ -6,7 +7,6 @@ const apiVisitors =
   "https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php";
 
 const ticketList = document.getElementById("ticketList");
-// debug removed: rawJson panel deleted
 const visitorSelect = document.getElementById("visitorSelect");
 const concertSelect = document.getElementById("concertSelect");
 

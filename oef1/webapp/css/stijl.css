@@ -64,28 +64,84 @@ body {
 .controls button {
   background: var(--glass);
   border: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: transform 150ms ease, box-shadow 180ms ease, background 180ms ease, color 140ms ease;
 }
+/* header/login framed button — friendly orange hover */
 .controls button.primary-outline {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(185,28,28,0.18); /* soft red frame */
   color: var(--text);
+  padding: 8px 12px;
+  border-radius: 10px;
+  position: relative;
+}
+.controls button.primary-outline:hover,
+.controls button.primary-outline:focus {
+  background: linear-gradient(90deg, rgba(185,28,28,0.95), rgba(245,158,11,0.95));
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(185,28,28,0.12);
+  border-color: transparent;
+}
+.controls button.primary-outline:focus {
+  outline: none;
+  box-shadow: 0 10px 30px rgba(185,28,28,0.12), 0 0 0 4px rgba(245,158,11,0.07);
 }
 
 .main-nav {
   display: flex;
+  align-items: center;
   gap: 12px;
   justify-content: center;
   padding: 10px 0;
   margin-top: 12px;
+  /* make room for the banner background and allow absolutely positioned banner */
+  position: relative;
+  min-height: 72px;
 }
 .main-nav a {
   color: var(--muted);
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 8px;
+}
+/* nav banner (small decorative banner image) */
+.main-nav .nav-banner {
+  /* act as a full-width background for the nav row */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  border-radius: 0; /* span full width as background */
+  filter: saturate(1.02) contrast(1.02);
+}
+@media (max-width:700px) {
+  .main-nav .nav-banner {
+    display: none;
+  }
+}
+
+/* make nav links sit above the banner */
+.main-nav a {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.06);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.main-nav a.active {
+  background: linear-gradient(90deg, rgba(185,28,28,0.95), rgba(245,158,11,0.95));
+  color: white;
+  z-index: 3;
 }
 .main-nav a.active {
   background: linear-gradient(90deg, var(--brand), var(--accent));
@@ -230,6 +286,9 @@ button:focus {
   color: var(--brand);
   font-weight: 800;
   letter-spacing: 0.6px;
+  /* prefer emoji-capable fonts so 🎵 renders — add system emoji fallbacks */
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
+  font-size: 20px;
   transform-origin: center;
   transition: transform 220ms ease, box-shadow 200ms ease;
 }

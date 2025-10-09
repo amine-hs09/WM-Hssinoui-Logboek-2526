@@ -1,4 +1,5 @@
 <?php
+//een bezoeker aanpassen 
 check_required_fields(["id","first_name","last_name","birth_date","email"]);
 
 $first = htmlentities($postvars['first_name']);

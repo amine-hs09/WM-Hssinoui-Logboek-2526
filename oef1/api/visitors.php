@@ -19,8 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Router
+// Router hier doe je de conexie van de methodes met de juiste bestande 
 switch ($_SERVER['REQUEST_METHOD']) {
+  // get alle bezoekers of een met = kiez id 
     case 'GET':
         require __DIR__ . '/inc/visitors/get.php';
         break;
@@ -33,7 +34,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'DELETE':
         require __DIR__ . '/inc/visitors/delete.php';
         break;
-    default:
+    default://eror afvangen
         echo json_encode(["error" => "Method not allowed"]);
         http_response_code(405);
         break;

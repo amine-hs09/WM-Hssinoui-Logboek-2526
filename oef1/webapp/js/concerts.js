@@ -1,3 +1,4 @@
+// concerts.js 
 const apiConcerts =
   "https://www.mohamedaminehssinoui-odisee.be/oef1/api/concerts.php";
 const apiTickets =
@@ -8,7 +9,7 @@ const concertList = document.getElementById("concertList");
 const form = document.getElementById("concertForm");
 let editConcertId = null;
 
-
+// hier zijn de concert functies 
 const purchaseModal = document.getElementById("purchaseModal");
 const purchaseVisitor = document.getElementById("purchaseVisitor");
 const purchaseQty = document.getElementById("purchaseQty");
@@ -21,21 +22,22 @@ let currentPurchaseConcertId = null;
 
 async function loadConcerts() {
   if (!concertList) return;
-  concertList.innerHTML = '<p class="loading">⏳ Concerten laden...</p>';
-  try {
-    const res = await fetch(apiConcerts);
-    if (!res.ok) throw new Error("Netwerkfout");
-    const json = await res.json();
-    concertList.innerHTML = "";
+  concertList.innerHTML = '<p class="loading">⏳het concert is aan het laden .</p>';
+  try { // try de concerten laden
+  const json = await apiFetch(apiConcerts);
+    concertList.innerHTML = "";// met innerHTML leeg maken
     if (!json || !Array.isArray(json.data) || json.data.length === 0) {
-      concertList.innerHTML = '<p class="muted">Geen concerten gevonden.</p>';
+      concertList.innerHTML = '<p class="muted"> er zijn geen concerten gevonden </p>';
       return;
     }
-
+// voor elke concert dat gemaakt is maak een card 
     json.data.forEach((c) => {
+        // constant voor elke gemaakt concert
       const card = document.createElement("div");
       card.className = "card";
-
+// wat is thumb ?
+// een thumbnail voor het concert hier komt elle info van le concert
+//op de card 
       const thumb = document.createElement("div");
       thumb.className = "thumb";
       const initials = (c.artist || "🎵")
@@ -45,30 +47,31 @@ async function loadConcerts() {
         .join("")
         .toUpperCase();
       thumb.textContent = initials;
-
+// dit zijn de detals van le concert in u card 
       const body = document.createElement("div");
       body.className = "body";
       body.innerHTML = `
         <h3>${c.artist}</h3>
-        <p>📅 ${c.date} – ⏰ ${c.time}</p>
+        <p>📅 ${c.date} </p>
+        <p>⏰ ${c.time}</p>
         <p>📍 ${c.venue}</p>
-        <p>💰 <strong>€${parseFloat(c.price || 0).toFixed(2)}</strong> </p>
-      `;
+        <p>💰 <strong>€${parseFloat(c.price || 0).toFixed(2)}</strong> </p>`;
 
-      // add quick buy button (opens modal)
+      // hier kan een concert kopen via de concerten die beschikbaar zijn 
       const buyBtn = document.createElement("button");
       buyBtn.type = "button";
       buyBtn.className = "primary";
       buyBtn.textContent = "Koop";
       buyBtn.addEventListener("click", () => openPurchaseModal(c));
 
-      // edit button
+      // als ik op edit knop kan ik de concert aanpassen 
       const editBtn = document.createElement("button");
       editBtn.type = "button";
       editBtn.className = "btn-edit";
       editBtn.textContent = "Edit";
       editBtn.addEventListener("click", () => {
-        // populate form for editing
+        // wat zal er gebeuren als ik op edit knop druk
+        // deze data moet je verander 
         editConcertId = c.id;
         document.getElementById("artist").value = c.artist || "";
         document.getElementById("date").value = c.date || "";
@@ -80,29 +83,27 @@ async function loadConcerts() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
-      // delete button
+      // hier is de button om een concert te verwijden 
       const delBtn = document.createElement("button");
       delBtn.type = "button";
       delBtn.className = "btn-delete";
       delBtn.textContent = "Verwijder";
       delBtn.addEventListener("click", async () => {
-        if (!confirm("Weet je zeker dat je dit concert wilt verwijderen?"))
+        if (!confirm("ben je zeker?")) // bericjht om te bevestigen
           return;
         try {
-          const res = await fetch(apiConcerts, {
+          const json = await apiFetch(apiConcerts, {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: c.id }),
+            body: JSON.stringify({ id: c.id }), // id van concert wordt verwijdert 
           });
-          const json = await res.json();
-          if (typeof showToast === "function")
+          if (typeof showToast === "function") // toast bericht is verwijdert 
             showToast(json.message || "Verwijderd", "success");
-          else alert(json.message || "Verwijderd");
+          else alert(json.message || "deleted ");
           loadConcerts();
         } catch (e) {
           console.error(e);
           if (typeof showToast === "function")
-            showToast("Kon niet verwijderen", "error");
+            showToast("kan niet verwijdert worden", "error");
         }
       });
 
@@ -117,7 +118,7 @@ async function loadConcerts() {
       concertList.appendChild(card);
     });
   } catch (err) {
-    concertList.innerHTML = `<p class="error">❌ Fout bij laden van concerten. Controleer de API of je internetverbinding.</p>`;
+    concertList.innerHTML = `<p class="error">er is een fout voor laden van concerten bekijk je api </p>`;
     console.error(err);
   }
 }
@@ -138,24 +139,20 @@ form?.addEventListener("submit", async (e) => {
     if (editConcertId) {
       // update
       body.id = editConcertId;
-      res = await fetch(apiConcerts, {
+      json = await apiFetch(apiConcerts, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      json = await res.json();
       if (typeof showToast === "function")
         showToast(json.message || "Concert bijgewerkt", "success");
       else alert(json.message || "Concert bijgewerkt");
       editConcertId = null;
       if (submitBtn) submitBtn.textContent = "Concert Toevoegen";
     } else {
-      res = await fetch(apiConcerts, {
+      json = await apiFetch(apiConcerts, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      json = await res.json();
       if (typeof showToast === "function")
         showToast(json.message || "Concert toegevoegd", "success");
       else alert(json.message || "Concert toegevoegd");
@@ -178,8 +175,7 @@ async function openPurchaseModal(concert) {
   purchaseConcertTitle.textContent = `${concert.artist} — ${concert.venue} (${concert.date})`;
   // fill visitors
   try {
-    const res = await fetch(apiVisitors);
-    const json = await res.json();
+  const json = await apiFetch(apiVisitors);
     purchaseVisitor.innerHTML = (json.data || [])
       .map(
         (v) => `<option value="${v.id}">${v.first_name} ${v.last_name}</option>`
@@ -203,16 +199,14 @@ purchaseBuy?.addEventListener("click", async () => {
     return;
   }
   try {
-    const res = await fetch(apiTickets, {
+    const json = await apiFetch(apiTickets, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         visitor_id: visitorId,
         concert_id: currentPurchaseConcertId,
         qty,
       }),
     });
-    const json = await res.json();
     if (typeof showToast === "function")
       showToast(json.message || "Ticket gekocht", "success");
     purchaseModal.setAttribute("aria-hidden", "true");
