@@ -4,8 +4,8 @@ const apiTickets =
 const apiConcerts =
   "https://www.mohamedaminehssinoui-odisee.be/oef1/api/concerts.php";
 const apiVisitors =
-  "https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php";
-
+"https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php";
+//
 const ticketList = document.getElementById("ticketList");
 const visitorSelect = document.getElementById("visitorSelect");
 const concertSelect = document.getElementById("concertSelect");
