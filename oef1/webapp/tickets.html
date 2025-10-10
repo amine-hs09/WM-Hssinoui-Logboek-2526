@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
   <head>
-    <!-- overzicht ticket kopen  -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>🎫 Tickets Kopen</title>
@@ -24,7 +23,11 @@
         </div>
       </div>
       <nav class="main-nav">
-        <img src="images/bannerevent.jpg" class="nav-banner" alt="Evenement banner">
+        <img
+          src="images/bannerevent.jpg"
+          class="nav-banner"
+          alt="Evenement banner"
+        />
         <a href="index.html">Concerten</a>
         <a href="visitors.html">Bezoekers</a>
         <a href="tickets.html" class="active">Tickets</a>
@@ -42,7 +45,7 @@
           <select id="concertSelect" required></select>
 
           <label for="qty">Aantal tickets:</label>
-          <input id="qty" type="number" min="1" value="1" required>
+          <input id="qty" type="number" min="1" value="1" required />
 
           <button type="submit" class="primary">Ticket Kopen</button>
         </form>
@@ -55,10 +58,7 @@
         </p>
         <div id="ticketList" class="grid"></div>
       </section>
-      <div
-        class="muted last-updated"
-        style="margin-top: 12px; font-size: 0.9rem"
-      ></div>
+      <div class="muted last-updated"></div>
     </main>
     <!-- Login Modal -->
     <div id="loginModal" class="modal" aria-hidden="true">

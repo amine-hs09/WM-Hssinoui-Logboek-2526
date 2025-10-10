@@ -1,20 +1,17 @@
 <?php
-// --- "add" een concert
-// hier kan ik een nieuwe concert toevoegen aan de db 
-// controleer of de nodige velden meegegeven zijn in json vorm 
+// hier kan ik een nieuwe concert toevoegen aan het db bekijk als de nodige velden actie zijn . 
 check_required_fields(["artist", "date", "time", "venue", "price"]);
 
-// Variables locales om warnings te vermijden
+// locale variabels die de warning gaan vermijden 
 $artist = htmlentities($postvars['artist']);
 $date = htmlentities($postvars['date']);
 $time = htmlentities($postvars['time']);
 $venue = htmlentities($postvars['venue']);
 $price = $postvars['price'];
 
-// create prepared statement  de instert query wordt voorbereid
-// sql injectie voor een veilige query
+//  het aanmaken van een isnert statement voor de db van een concert 
 if (!$stmt = $conn->prepare("INSERT INTO concerts (artist, date, time, venue, price) VALUES (?,?,?,?,?)")) {
-    //als de query niet kan worden voorbereid dan krijg je eror 
+    //je moet deze volgende waarden hebben om geen eror te hebben 
     die(json_encode([
         "error" => "Prepare failed",
         "errNo" => $conn->errno,
@@ -23,7 +20,7 @@ if (!$stmt = $conn->prepare("INSERT INTO concerts (artist, date, time, venue, pr
     ]));
 }
 
-// bind parameters (s = string, d = double)
+// bind parameters met string 
 if (!$stmt->bind_param("ssssd", $artist, $date, $time, $venue, $price)) {
     die(json_encode([
         "error" => "Bind failed",
@@ -41,13 +38,13 @@ if (!$stmt->execute()) {
         "status" => "fail"
     ]));
 }
-// dit is de id van nieuwe concert
+// hier is de id vann de concert 
 $id = $conn->insert_id;
-// sluit de statement uit en verbinding met db
+// de statement is gesloten en vervind aan db 
 $stmt->close();
 $conn->close();
 
-// Réponse clean in json voor postman 
+// via postman krijg je goede aantwoord in json 
 die(json_encode([
     "data" => "ok",
     "message" => "Record added successfully",

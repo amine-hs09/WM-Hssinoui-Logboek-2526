@@ -1,8 +1,10 @@
 <?php
+//hier krijg ik een get methode voor alle concerts in db 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+// zoek via postman de gevraagde id door = id te gerbuiekn 
 
 if ($id > 0) {
-    // detail concert
+    // waar id is dans krijg je deze infomatie bij het opzoekne van get 
     if (!$stmt = $conn->prepare("SELECT id,artist,date,time,venue,price FROM concerts WHERE id=?")) {
         $response['code'] = 7;
         $response['status'] = 500;
@@ -26,7 +28,7 @@ if ($id > 0) {
     $concert = $r->fetch_assoc();
     $stmt->close();
 
-    // visiteurs pour ce concert
+    // welke visitor is aangegeven voor dit concert 
     $sqlV = "SELECT v.id, v.first_name, v.last_name, v.email, t.qty
              FROM tickets t JOIN visitors v ON v.id=t.visitor_id
              WHERE t.concert_id=$id ORDER BY v.last_name, v.first_name";
