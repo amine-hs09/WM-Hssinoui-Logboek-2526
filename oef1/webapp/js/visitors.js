@@ -49,7 +49,9 @@ visitorFormEl?.addEventListener("submit", async (e) => {
     if (typeof showToast === "function") showToast("Kon niet opslaan", "error");
   }
 });
-
+// async functie load visitors 
+// dit zorgt ervoor dat de bzoekers geladne worden 
+// komen te voorschijn in de visitorListContainer
 async function loadVisitors() {
   if (!visitorListContainer) return;
   visitorListContainer.innerHTML = "<p>⏳ Laden...</p>";
@@ -98,6 +100,7 @@ visitorListContainer.addEventListener("click", async (e) => {
       editVisitorId = id;
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+// indien de delete knop wordt ingedrukt 
 
     if (target.dataset.delete) {
       if (!confirm("Weet je zeker dat je deze bezoeker wilt verwijderen?")) return;
@@ -107,13 +110,15 @@ visitorListContainer.addEventListener("click", async (e) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: parseInt(id) }),
         });
+        // toon bericht ben je zeker 
         showToast("Verwijderd", "success");
         loadVisitors();
       } catch (err) {
         showToast("Kon niet verwijderen", "error");
       }
     }
-
+// if api voor bezoekers
+// toon de gegevens van de bezoekrs  
     if (target.dataset.view) {
       try {
         const res = await fetch(apiVisitors + "?id=" + encodeURIComponent(id));

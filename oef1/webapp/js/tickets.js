@@ -5,18 +5,18 @@ const apiConcerts =
   "https://www.mohamedaminehssinoui-odisee.be/oef1/api/concerts.php";
 const apiVisitors =
 "https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php";
-//
+// elementen voor ticket aanmaken 
 const ticketList = document.getElementById("ticketList");
 const visitorSelect = document.getElementById("visitorSelect");
 const concertSelect = document.getElementById("concertSelect");
-
+// vistirorSelect concertSelect visitor met een concert 
 async function fillSelects() {
   try {
     const [visitors, concerts] = await Promise.all([
       fetch(apiVisitors).then((r) => r.json()),
       fetch(apiConcerts).then((r) => r.json()),
     ]);
-
+// if visitorSelect dan select ingevuld met een visitor 
     if (visitorSelect)
       visitorSelect.innerHTML = (visitors.data || [])
         .map(
@@ -24,6 +24,7 @@ async function fillSelects() {
             `<option value="${v.id}">${v.first_name} ${v.last_name} (${v.email})</option>`
         )
         .join("");
+        // if concert select dan ingevuld met concert 
     if (concertSelect)
       concertSelect.innerHTML = (concerts.data || [])
         .map(
@@ -35,11 +36,12 @@ async function fillSelects() {
         .join("");
   } catch (err) {
     if (typeof showToast === "function")
+      // links op scherm beneden zie je een toast berich 
       showToast("⚠️ Kan de lijsten niet laden.");
     else alert("⚠️ Kan de lijsten niet laden.");
   }
 }
-
+// form van ticket bestaat uit visitorSelect concertSelect en qty
 const ticketFormEl = document.getElementById("ticketForm");
 ticketFormEl?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -49,13 +51,13 @@ ticketFormEl?.addEventListener("submit", async (e) => {
     concert_id: parseInt(concertSelect.value),
     qty: parseInt(document.getElementById("qty").value),
   };
-
+// post request naar de api van ticket 
   const res = await fetch(apiTickets, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-
+// json form waarmee je een toast bericht krijgt ticket aangemaakt 
   const json = await res.json();
   if (typeof showToast === "function")
     showToast(
@@ -65,7 +67,7 @@ ticketFormEl?.addEventListener("submit", async (e) => {
   else alert("🎟️ " + (json.message || "Ticket aangemaakt"));
   loadTickets();
 });
-
+// tickets laden en weergeven
 async function loadTickets() {
   ticketList.innerHTML = "<p>⏳ Tickets laden...</p>";
   const [res, concertsRes, visitorsRes] = await Promise.all([
@@ -73,6 +75,7 @@ async function loadTickets() {
     fetch(apiConcerts),
     fetch(apiVisitors),
   ]);
+  // we halen ook de concerten en bezoekers op, zodat we die kunnen mappen
   const json = await res.json();
   const concerts = await concertsRes.json();
   const visitors = await visitorsRes.json();
@@ -83,6 +86,7 @@ async function loadTickets() {
       if (k != null) concertMap[k] = c;
     });
   });
+  // maak een map van bezoekers
   const visitorMap = {};
   (visitors.data || []).forEach((v) => {
     const keys = [v.id, v.visitor_id, v.visitorId];
@@ -98,7 +102,7 @@ async function loadTickets() {
     const div = document.createElement("div");
     div.className = "card";
 
-    // if ticket already embeds visitor or concert objects, prefer those
+   // indien ticket al een visitor of concert object bevat, geef die dan voorrang
     const embeddedVisitor = t.visitor || t.visitor_obj || t.buyer || null;
     const embeddedConcert = t.concert || t.concert_obj || null;
 
@@ -153,7 +157,7 @@ async function loadTickets() {
       : concertId
       ? "ID:" + concertId
       : "-";
-    // prefer explicit purchase timestamp fields only; do NOT fall back to concert date
+ 
     const dateLabel =
       t.bought_at ||
       t.created_at ||
