@@ -16,3 +16,4 @@ $stmt->close();
 $conn->close();
 // sluit verbinding
 die('{"data":"ok","message":"Ticket updated","status":200,"updated":' . $rows . '}');
+?>

@@ -15,3 +15,4 @@ $rows = $conn->affected_rows;
 $stmt->close();
 // json format 
 die('{"data":"ok","message":"Record deleted","status":200,"deleted":' . $rows . '}');
+?>

@@ -22,3 +22,4 @@ $id = $conn->insert_id;
 $stmt->close();
 // sluit verbinding op deze manier
 die('{"data":"ok","message":"Ticket purchased successfully","status":200,"id":' . $id . '}');
+?>

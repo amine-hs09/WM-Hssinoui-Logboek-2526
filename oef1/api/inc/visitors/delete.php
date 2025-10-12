@@ -18,3 +18,4 @@ $stmt->close();
 $conn->close();
 
 die(json_encode(["data" => "ok", "message" => "Visitor deleted", "status" => 200, "deleted" => $rows]));
+?>

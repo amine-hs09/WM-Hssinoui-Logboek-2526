@@ -1,6 +1,6 @@
 const apiVisitors =
   "https://www.mohamedaminehssinoui-odisee.be/oef1/api/visitors.php";
-const tbody = document.getElementById("visitorBody");
+const visitorListContainer = document.getElementById("visitorList");
 
 const visitorFormEl = document.getElementById("visitorForm");
 let editVisitorId = null;
@@ -51,112 +51,88 @@ visitorFormEl?.addEventListener("submit", async (e) => {
 });
 
 async function loadVisitors() {
-  tbody.innerHTML = "<tr><td colspan='4'>⏳ Laden...</td></tr>";
+  if (!visitorListContainer) return;
+  visitorListContainer.innerHTML = "<p>⏳ Laden...</p>";
   const res = await fetch(apiVisitors);
   const json = await res.json();
-  tbody.innerHTML = "";
+  visitorListContainer.innerHTML = "";
 
   json.data.forEach((v) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${v.id}</td>
-      <td>${v.first_name} ${v.last_name}</td>
-      <td>${v.email || "-"}</td>
-      <td>${v.birth_date || "-"}</td>
-      <td>
+    const card = document.createElement("div");
+    card.className = "visitor-card";
+
+    card.dataset.id = v.id;
+    card.dataset.fname = v.first_name;
+    card.dataset.lname = v.last_name;
+    card.dataset.email = v.email;
+    card.dataset.birth = v.birth_date;
+
+    card.innerHTML = `
+      <div class="visitor-info">
+        <h3>${v.first_name} ${v.last_name}</h3>
+        <p>${v.email || "-"}</p>
+        <span>Geboren op: ${v.birth_date || "-"}</span>
+      </div>
+      <div class="visitor-actions">
         <button class="primary-outline" data-view="${v.id}">Bekijk</button>
         <button class="primary-outline" data-edit="${v.id}">Edit</button>
         <button class="primary-outline" data-delete="${v.id}">Delete</button>
-      </td>
+      </div>
     `;
-    tbody.appendChild(row);
+    visitorListContainer.appendChild(card);
   });
+}
 
-  // bind edit/delete handlers
-  tbody.querySelectorAll("button[data-edit]").forEach((b) =>
-    b.addEventListener("click", (e) => {
-      const id = e.currentTarget.getAttribute("data-edit");
-      const tr = e.currentTarget.closest("tr");
-      if (!tr) return;
-      const cols = tr.querySelectorAll("td");
-      document.getElementById("fname").value =
-        cols[1].textContent.split(" ")[0] || "";
-      document.getElementById("lname").value =
-        cols[1].textContent.split(" ").slice(1).join(" ") || "";
-      document.getElementById("mail").value = cols[2].textContent || "";
-      document.getElementById("birth").value = cols[3].textContent || "";
+visitorListContainer.addEventListener("click", async (e) => {
+    const target = e.target;
+    const card = target.closest(".visitor-card");
+    if (!card) return;
+
+    const id = card.dataset.id;
+
+    if (target.dataset.edit) {
+      document.getElementById("fname").value = card.dataset.fname || "";
+      document.getElementById("lname").value = card.dataset.lname || "";
+      document.getElementById("mail").value = card.dataset.email || "";
+      document.getElementById("birth").value = card.dataset.birth || "";
       editVisitorId = id;
       window.scrollTo({ top: 0, behavior: "smooth" });
-    })
-  );
+    }
 
-  tbody.querySelectorAll("button[data-delete]").forEach((b) =>
-    b.addEventListener("click", async (e) => {
-      const id = e.currentTarget.getAttribute("data-delete");
-      if (!confirm("Weet je zeker dat je deze bezoeker wilt verwijderen?"))
-        return;
+    if (target.dataset.delete) {
+      if (!confirm("Weet je zeker dat je deze bezoeker wilt verwijderen?")) return;
       try {
-        const res = await fetch(apiVisitors, {
+        await fetch(apiVisitors, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: parseInt(id) }),
         });
-        const json = await res.json();
-        if (typeof showToast === "function")
-          showToast(json.message || "Verwijderd", "success");
-        else alert(json.message || "Verwijderd");
+        showToast("Verwijderd", "success");
         loadVisitors();
       } catch (err) {
-        console.error(err);
-        if (typeof showToast === "function")
-          showToast("Kon niet verwijderen", "error");
+        showToast("Kon niet verwijderen", "error");
       }
-    })
-  );
+    }
 
-  // view handlers
-  tbody.querySelectorAll("button[data-view]").forEach((b) =>
-    b.addEventListener("click", async (e) => {
-      const id = e.currentTarget.getAttribute("data-view");
+    if (target.dataset.view) {
       try {
         const res = await fetch(apiVisitors + "?id=" + encodeURIComponent(id));
         const json = await res.json();
-        const info =
-          json.data && json.data.visitor ? json.data.visitor : json.data;
-        const tickets = json.data && json.data.tickets ? json.data.tickets : [];
-        const visitorModal = document.getElementById("visitorModal");
-        const visitorInfo = document.getElementById("visitorInfo");
-        const visitorConcerts = document.getElementById("visitorConcerts");
-        if (visitorInfo)
-          visitorInfo.textContent = info
-            ? info.first_name +
-              " " +
-              info.last_name +
-              (info.email ? " — " + info.email : "")
-            : "Geen data";
-        if (visitorConcerts)
-          visitorConcerts.innerHTML =
-            (tickets || [])
-              .map(
-                (t) =>
-                  `<div class="card"><div class="body"><h4>${t.artist}</h4><p>${t.venue} — ${t.date}</p><p>Aantal: ${t.qty}</p></div></div>`
-              )
-              .join("") || '<p class="muted">Geen tickets</p>';
-        if (visitorModal) visitorModal.setAttribute("aria-hidden", "false");
+        const info = json.data?.visitor || json.data;
+        const tickets = json.data?.tickets || [];
+        
+        document.getElementById("visitorInfo").textContent = info ? `${info.first_name} ${info.last_name} — ${info.email || ""}` : "Geen data";
+        document.getElementById("visitorConcerts").innerHTML =
+            tickets.map(t => `<div class="card"><div class="body"><h4>${t.artist}</h4><p>${t.venue} — ${t.date}</p><p>Aantal: ${t.qty}</p></div></div>`).join("") || '<p class="muted">Geen tickets</p>';
+        document.getElementById("visitorModal").setAttribute("aria-hidden", "false");
       } catch (err) {
-        console.error(err);
-        if (typeof showToast === "function")
-          showToast("Kon bezoeker niet laden", "error");
+        showToast("Kon bezoeker niet laden", "error");
       }
-    })
-  );
-
-  // visitor modal close
-  const visitorClose = document.getElementById("visitorClose");
-  visitorClose?.addEventListener("click", () => {
-    const m = document.getElementById("visitorModal");
-    if (m) m.setAttribute("aria-hidden", "true");
+    }
   });
-}
+
+document.getElementById("visitorClose")?.addEventListener("click", () => {
+  document.getElementById("visitorModal").setAttribute("aria-hidden", "true");
+});
 
 loadVisitors();

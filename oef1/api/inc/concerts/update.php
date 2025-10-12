@@ -1,9 +1,9 @@
 <?php
-// --- "update" een concert
+// een cincert modificeren
 
 check_required_fields(["id", "artist", "date", "time", "venue", "price"]);
 
-// Sécuriser les entrées
+// locale variabels die de warning gaan vermijden
 $id = (int) $postvars['id'];
 $artist = htmlentities($postvars['artist']);
 $date = htmlentities($postvars['date']);
@@ -30,7 +30,7 @@ if (!$stmt->bind_param("ssssdi", $artist, $date, $time, $venue, $price, $id)) {
         "status" => "fail"
     ]));
 }
-
+// Execute werd niet goed uitgevoerd
 if (!$stmt->execute()) {
     die(json_encode([
         "error" => "Execute failed",
@@ -43,10 +43,11 @@ if (!$stmt->execute()) {
 $rows = $stmt->affected_rows;
 $stmt->close();
 $conn->close();
-
+// die in json format indien alles goed is verlopen
 die(json_encode([
     "data" => "ok",
     "message" => "Record updated",
     "status" => 200,
     "updated" => $rows
 ]));
+?>

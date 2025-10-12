@@ -39,3 +39,4 @@ if ($id > 0) {
 
     die(json_encode(["data" => $list, "status" => 200]));
 }
+?>

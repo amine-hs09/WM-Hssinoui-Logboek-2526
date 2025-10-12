@@ -51,3 +51,4 @@ die(json_encode([
     "status" => 200,
     "id" => $id
 ]));
+?>

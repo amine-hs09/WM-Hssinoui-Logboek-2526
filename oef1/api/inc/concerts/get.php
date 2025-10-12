@@ -71,3 +71,4 @@ if ($id > 0) {
     $conn->close();
     deliver_JSONresponse1($response);
 }
+?>

@@ -45,3 +45,4 @@ if ($id > 0) {
 // sluit verbinding
     die(json_encode(["data" => $tickets, "status" => 200]));
 }
+?>

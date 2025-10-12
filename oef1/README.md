@@ -105,7 +105,7 @@ Deel 2 – Tickets API
 ├── update.php → PUT : ticket wijzigen
 └── delete.php → DELETE : ticket verwijderen
 
-https://www.mohamedaminehssinoui-odisee.be/oef1/api/tickets.php
+  https://www.mohamedaminehssinoui-odisee.be/oef1/api/tickets.php
 
 Database : ID477568_Restfulapi
 Tabel : tickets
@@ -229,9 +229,7 @@ Voorbeeld-response :
 "deleted": 1
 }
 
-Parfait Amine 👌 — voici ton **README complet (Deel 3 + Deel 4)**
-en **Nederlands**, prêt à coller directement dans ton fichier `README.md`.
-Il respecte exactement la structure de tes voorgaande delen (Concerts + Tickets).
+
 
 ---
 

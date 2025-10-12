@@ -22,3 +22,4 @@ $stmt->close();
 $conn->close();
 
 die(json_encode(["data" => "ok", "message" => "Visitor updated", "status" => 200, "updated" => $rows]));
+?>

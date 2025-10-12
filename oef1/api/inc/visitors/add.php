@@ -24,3 +24,4 @@ $stmt->close();
 $conn->close();
 // sluit verbinding op deze manier
 die(json_encode(["data" => "ok", "message" => "Visitor added successfully", "status" => 200, "id" => $id]));
+?>
