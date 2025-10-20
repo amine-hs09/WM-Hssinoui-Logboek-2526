@@ -204,4 +204,27 @@ Finale Tests: van mijn api met postman om te zien als alles nog goed werk
 /////////////////////////////////////////////////////////////////////////
 
 
+Oké, begrepen. Hier is een aangepaste versie van de tekst, zonder emoji's en met een meer natuurlijke, menselijke toon, alsof je zelf je weekverslag schrijft.
+
+---
+
+## Week 4 – Hybride Apps met Ionic & Vue.js
+📅 **Datum:** 6 – 12 oktober 2025  
+⏱️ **Tijd:** ± 10 uur  
+🧠 **Wat gedaan:**
+
+Deze week ben ik dieper ingegaan op hybride applicaties. De eerste stap was het volledig opzetten van de ontwikkelomgeving. Ik heb hiervoor Node.js, npm en de Ionic CLI geïnstalleerd.
+
+Nadat de tools klaar stonden, heb ik een nieuw project aangemaakt met het Ionic Framework en Vue.js, vertrekkende vanuit de standaard 'tabs' template. Om te controleren of alles correct was geïnstalleerd, heb ik het project meteen getest met `ionic serve`, wat succesvol werkte in de browser.
+
+Vervolgens heb ik het project, zoals in de les aangegeven, omgezet van TypeScript naar standaard JavaScript om de complexiteit wat te verlagen. Dit was een gedetailleerd proces waarbij ik configuratiebestanden (`package.json`, `.eslintrc.js`) moest aanpassen, bestanden moest hernoemen en de code in alle `.vue` componenten moest opschonen.
+
+Daarna ben ik begonnen met de praktische oefening, waarbij ik de drie standaard tabs heb omgebouwd:
+* **Tab 1:** Hier heb ik een formulier gebouwd voor het toevoegen van producten, gebruikmakend van de `ion-input` en `ion-radio-group` componenten voor de naam, prijs en categorie.
+* **Tab 2:** Dit is nu een dynamische lijst van producten geworden. Ik heb er een `ion-searchbar` aan toegevoegd die de lijst in real-time filtert.
+* **Tab 3:** Deze tab heb ik gebruikt om te experimenteren met verschillende andere Ionic componenten, zoals `ion-card`, `ion-avatar` en `ion-list`, om de mogelijkheden van het framework beter te leren kennen.
+
+
+
+
 
